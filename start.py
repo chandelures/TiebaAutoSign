@@ -16,9 +16,6 @@ class TiebaAutoSign:
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
-        options.add_argument(
-            'user-agent="Mozilla/5.0 (iPod; U; CPU iPhone OS 2_1 like Mac OS X; ja-jp) AppleWebKit/525.18.1 '
-            '(KHTML, like Gecko) Version/3.1.1 Mobile/5F137 Safari/525.20"')
         self.driver = Chrome(options=options)
         self.driver.implicitly_wait(20)
         self.driver.delete_all_cookies()
@@ -50,7 +47,6 @@ class TiebaAutoSign:
 
     def auto_sign(self):
         success = 0
-        fail = 0
         for forum_name in self.get_forum_name_list():
             sign_data = {
                 'ie': 'utf-8',
@@ -61,10 +57,7 @@ class TiebaAutoSign:
             if eval(sign_res.text)["no"] == 0:
                 print("{}吧签到成功！".format(forum_name))
                 success = success + 1
-            else:
-                print("{}吧签到失败。".format(forum_name))
-                fail = fail + 1
-        print('共签到成功{}个贴吧，失败{}个贴吧。'.format(success, fail))
+        print('共签到成功{}个贴吧。'.format(success))
         self.driver.close()
         self.driver.quit()
 
