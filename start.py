@@ -58,7 +58,7 @@ class TiebaAutoSign:
             if eval(sign_res.text)["no"] == 0:
                 print("{}吧签到成功！".format(forum_name))
                 success = success + 1
-            elif eval(sign_res.text)["no"] != 0:
+            else:
                 print("{}吧签到失败。".format(forum_name))
                 fail = fail + 1
         print('共签到成功{}个贴吧，失败{}个贴吧。'.format(success, fail))
