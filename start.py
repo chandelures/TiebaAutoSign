@@ -11,6 +11,9 @@ class TiebaAutoSign:
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
+        options.add_argument(
+            'user-agent="Mozilla/5.0 (iPod; U; CPU iPhone OS 2_1 like Mac OS X; ja-jp) AppleWebKit/525.18.1 '
+            '(KHTML, like Gecko) Version/3.1.1 Mobile/5F137 Safari/525.20"')
         self.driver = Chrome(options=options)
         self.driver.implicitly_wait(20)
         self.driver.delete_all_cookies()
