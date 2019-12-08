@@ -1,8 +1,13 @@
-# coding=utf-8
+# coding=utf-8  
 import json
 import re
 from seleniumrequests import Chrome
 from selenium.webdriver.chrome.options import Options
+import sys
+
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 class TiebaAutoSign:
