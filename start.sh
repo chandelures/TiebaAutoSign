@@ -1,2 +1,3 @@
 #!/bin/bash
-"${PWD}/venv/bin/python" "${PWD}/start.py" -c "${PWD}/cookies.txt"
+pwd="/home/chandelure/TiebaAutoSign"
+"${pwd}/venv/bin/python" "${pwd}/start.py" -c "${pwd}/cookies.txt"
