@@ -1,3 +1,5 @@
-./venv/
+venv/
 cookies.txt
-./.idea/
+.idea/
+.git/
+__pycache__/

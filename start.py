@@ -4,14 +4,11 @@ import re
 from seleniumrequests import Chrome
 from selenium.webdriver.chrome.options import Options
 import sys
-
-
-reload(sys)
-sys.setdefaultencoding('utf8')
+import getopt
 
 
 class TiebaAutoSign:
-    def __init__(self):
+    def __init__(self, cookies_file_path):
         options = Options()
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
@@ -20,12 +17,12 @@ class TiebaAutoSign:
         self.driver.implicitly_wait(20)
         self.driver.delete_all_cookies()
         self.tieba_url = "https://tieba.baidu.com/"
-        self.cookie_file_path = '/home/chandelure/TiebaAutoSign/cookies.txt'
+        self.cookies_file_path = cookies_file_path
         self.sign_url = 'https://tieba.baidu.com/sign/add'
 
     def add_cookies(self):
         self.driver.get(self.tieba_url)
-        with open(self.cookie_file_path, "r") as fp:
+        with open(self.cookies_file_path, "r") as fp:
             list_cookies = json.loads(fp.readline())
             for cookie in list_cookies:
                 if 'expiry' in cookie:
@@ -62,6 +59,26 @@ class TiebaAutoSign:
         self.driver.quit()
 
 
+def main(argv):
+    cookies_file_path = ''
+    try:
+        opts, args = getopt.getopt(argv, "hc:")
+    except getopt.GetoptError:
+        print('start.py -c <cookies_file_path>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print('start.py -c <cookies_file_path>')
+            sys.exit()
+        elif opt == '-c':
+            cookies_file_path = arg
+        else:
+            print('start.py -c <cookies_file_path>')
+            sys.exit()
+    print('cookies_file_path:' + cookies_file_path)
+    tieba_auto_sign = TiebaAutoSign(cookies_file_path)
+    tieba_auto_sign.auto_sign()
+
+
 if __name__ == '__main__':
-    tiebaAutoSign = TiebaAutoSign()
-    tiebaAutoSign.auto_sign()
+    main(sys.argv[1:])
