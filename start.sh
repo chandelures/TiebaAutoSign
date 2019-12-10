@@ -26,11 +26,16 @@ is_dir_exist(){
 }
 
 error(){
-    echo "[ERROR]${1}"
+    msg "[ERROR]${1}"
+}
+
+msg() {
+    printf '%b\n' "$1" >&2
 }
 
 main(){
     [ "is_dir_exist ${dir}" ] && [ "is_file_exist ${python}" ] && [ "is_file_exist ${start_file_path}" ] && [ "is_file_exist ${cookies_file_path}" ]
+    msg "开始进行一键签到......"
     eval ${cmd}
 }
 
