@@ -35,6 +35,10 @@ class TiebaAutoSign(object):
         """打印信息"""
         print('[{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
 
+    @staticmethod
+    def error(msg):
+        print('[ERROR][{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
+
     def __init__(self, cookies_file_path="./cookies.txt", tieba_url="https://tieba.baidu.com/",
                  sign_url='https://tieba.baidu.com/sign/add'):
         """初始化"""
@@ -54,10 +58,11 @@ class TiebaAutoSign(object):
                         del cookie['expiry']
                     self.driver.add_cookie(cookie)
         except FileNotFoundError:
-            self.echo("未发现cookies文件，请输入正确的路径")
+            self.error("未发现cookies文件，请输入正确的路径")
 
     def get_forum_name_list(self):
         """获取用户关注且并未签到的贴吧列表"""
+        self.echo("开始获取关注且未签到的贴吧列表")
         forum_name_list = []
         if self.sign_up():
             content = self.driver.page_source
@@ -69,7 +74,7 @@ class TiebaAutoSign(object):
                 forum_name_list.append(forum_name)
             return forum_name_list
         else:
-            self.echo("登录失败。")
+            self.error("获取贴吧列表失败。")
             self.exit_driver()
 
     def exit_driver(self):
@@ -85,10 +90,12 @@ class TiebaAutoSign(object):
             self.driver.find_element_by_id('my_tieba_mod')
             return True
         except NoSuchElementException:
+            self.error("登陆失败。")
             return False
 
     def auto_sign(self):
         """实现一键签到"""
+        self.echo("开始进行一键签到......")
         success = 0
         for forum_name in self.get_forum_name_list():
             sign_data = {
@@ -100,7 +107,7 @@ class TiebaAutoSign(object):
             if eval(sign_res.text)["no"] == 0:
                 self.echo("{}吧签到成功！".format(forum_name))
                 success = success + 1
-        self.echo('共签到成功{}个贴吧。'.format(success))
+        self.echo('一键签到结束，共签到成功{}个贴吧。'.format(success))
         self.exit_driver()
 
     def test(self):
@@ -109,5 +116,5 @@ class TiebaAutoSign(object):
             self.echo("测试成功，cookies可以正常使用。")
             self.exit_driver()
         else:
-            self.echo("测试失败,请更换可用的cookies。")
+            self.error("测试失败,请更换可用的cookies。")
             self.exit_driver()
