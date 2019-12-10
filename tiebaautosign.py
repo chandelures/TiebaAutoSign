@@ -32,12 +32,12 @@ class TiebaAutoSign(object):
 
     @staticmethod
     def echo(msg):
-        """打印信息函数"""
+        """打印信息"""
         print('[{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
 
     def __init__(self, cookies_file_path="./cookies.txt", tieba_url="https://tieba.baidu.com/",
                  sign_url='https://tieba.baidu.com/sign/add'):
-        """类初始化"""
+        """初始化"""
         self.driver = self.init_driver()
         self.tieba_url = tieba_url
         self.cookies_file_path = cookies_file_path

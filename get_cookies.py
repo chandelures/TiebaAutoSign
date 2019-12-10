@@ -11,8 +11,18 @@ import json
 
 
 class BaiduLogin:
+    """
+    获取登录百度后的cookies
+
+    Attributes:
+        login_url: 登录页面URL
+        driver：selenium.webdriver的一个实例化
+        qr_code_img_name: 存放二维码图片名称
+        cookies_file_name: 存放cookies文件的名称
+    """
     @staticmethod
     def init_driver():
+        """初始化driver"""
         options = Options()
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
@@ -23,11 +33,12 @@ class BaiduLogin:
 
     @staticmethod
     def echo(msg):
-        """打印信息函数"""
+        """打印信息"""
         print('[{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
 
     @staticmethod
     def print_qr_code(content):
+        """打印二维码"""
         barcode_url = ""
         barcodes = decode(Image.open(BytesIO(content)))
         for barcode in barcodes:
@@ -38,6 +49,7 @@ class BaiduLogin:
 
     def __init__(self, cookies_file_name='cookies.txt',
                  qr_code_img_name='qr_code.jpg', login_url='https://passport.baidu.com/v2/?login'):
+        """初始化"""
         self.driver = self.init_driver()
         self.login_url = login_url
         self.qr_code_img_name = qr_code_img_name
@@ -49,6 +61,7 @@ class BaiduLogin:
         self.driver.quit()
 
     def login_baidu(self):
+        """登录百度"""
         self.driver.get(self.login_url)
         qr_code_href = self.driver.find_element_by_class_name('tang-pass-qrcode-img').get_attribute('src')
         qr_code_content = requests.get(qr_code_href).content
@@ -58,14 +71,16 @@ class BaiduLogin:
         self.echo('请使用百度APP扫描二维码进行登录。')
         while self.driver.title == '登录百度帐号':
             time.sleep(1)
-        self.echo('登陆成功！开始保存cookie......')
+        self.echo('登陆成功！')
 
     def get_cookies(self):
+        """获取cookies"""
         self.login_baidu()
+        self.echo("开始获取cookies...")
         cookies = self.driver.get_cookies()
         with open(self.cookies_file_name, "w") as fp:
             json.dump(cookies, fp)
-        self.echo('保存完毕！')
+        self.echo('cookies保存完毕！')
         self.exit_driver()
 
 
