@@ -1,3 +1,4 @@
+# coding=utf-8
 from seleniumrequests import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
