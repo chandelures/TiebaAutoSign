@@ -5,6 +5,7 @@ from seleniumrequests import Chrome
 from selenium.webdriver.chrome.options import Options
 import sys
 import getopt
+import time
 
 
 class TiebaAutoSign:
@@ -42,6 +43,10 @@ class TiebaAutoSign:
             forum_name_list.append(forum_name)
         return forum_name_list
 
+    @staticmethod
+    def echo(msg):
+        print('[{}]:{}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
+
     def auto_sign(self):
         success = 0
         for forum_name in self.get_forum_name_list():
@@ -52,9 +57,9 @@ class TiebaAutoSign:
             }
             sign_res = self.driver.request('POST', self.sign_url, data=sign_data)
             if eval(sign_res.text)["no"] == 0:
-                print("{}吧签到成功！".format(forum_name))
+                self.echo("{}吧签到成功！".format(forum_name))
                 success = success + 1
-        print('共签到成功{}个贴吧。'.format(success))
+        self.echo('共签到成功{}个贴吧。'.format(success))
         self.driver.close()
         self.driver.quit()
 
@@ -75,7 +80,6 @@ def main(argv):
         else:
             print('start.py -c <cookies_file_path>')
             sys.exit()
-    print('cookies_file_path:' + cookies_file_path)
     tieba_auto_sign = TiebaAutoSign(cookies_file_path)
     tieba_auto_sign.auto_sign()
 
