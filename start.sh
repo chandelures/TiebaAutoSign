@@ -28,7 +28,7 @@ error(){
 }
 
 main(){
-    if [[ is_dir_exist ${dir} ]] && [[ is_file_exist ${python} ]] && [[ is_file_exist ${start_file_path} ]] && [[ is_file_exist ${cookies_file_path} ]];
+    if [ is_dir_exist ${dir} ] && [ is_file_exist ${python} ] && [ is_file_exist ${start_file_path} ] && [ is_file_exist ${cookies_file_path} ];
     then
     eval ${cmd}
     else
