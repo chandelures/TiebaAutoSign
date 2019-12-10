@@ -1,4 +1,4 @@
-# coding=utf-8  
+# coding=UTF-8
 import sys
 import getopt
 from tiebaautosign import TiebaAutoSign
