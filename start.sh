@@ -8,32 +8,30 @@ cmd="${python} ${start_file_path} -c ${cookies_file_path}"
 
 
 is_file_exist(){
-    if [[ -f $1 ]];then
-    return 1
+    local file_path="$1"
+    if [ -f "$file_path" ]; then
+        return 1
     else
-    error "文件$1不存在"
+        error "文件${file_path}不存在"
     fi
 }
 
 is_dir_exist(){
-    if [[ -d $1 ]];then
-    return 1
+    local dir_path="$1"
+    if [ -d "$dir_path" ]; then
+        return 1
     else
-    error "目录$1不存在"
+        error "目录${dir_path}不存在"
     fi
 }
 
 error(){
-    echo "[ERROR]$1"
+    echo "[ERROR]${1}"
 }
 
 main(){
-    if [ is_dir_exist ${dir} ] && [ is_file_exist ${python} ] && [ is_file_exist ${start_file_path} ] && [ is_file_exist ${cookies_file_path} ];
-    then
+    [ "is_dir_exist ${dir}" ] && [ "is_file_exist ${python}" ] && [ "is_file_exist ${start_file_path}" ] && [ "is_file_exist ${cookies_file_path}" ]
     eval ${cmd}
-    else
-    error "签到失败"
-    fi
 }
 
 main
