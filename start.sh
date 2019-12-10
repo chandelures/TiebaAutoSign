@@ -4,8 +4,8 @@ dir=`pwd`
 python="${dir}/venv/bin/python"
 start_file_path="${dir}/start.py"
 cookies_file_path="${dir}/cookies.txt"
-cmd="${python} ${start_file_path} -c ${cookies_file_path}"
-
+log_path="/var/log/tieba.log"
+cmd="${python} ${start_file_path} -c ${cookies_file_path} >> ${log_path} 2>&1"
 
 is_file_exist(){
     local file_path="$1"
