@@ -1,3 +1,4 @@
+# coding=utf-8
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from pyzbar.pyzbar import decode
