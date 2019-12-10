@@ -8,6 +8,8 @@ import re
 
 class TiebaAutoSign(object):
     """
+    实现贴吧一键签到
+
     Attributes:
         cookies_file_path: 存放登陆所需cookies文件的路径
         driver：selenium.webdriver的一个实例化

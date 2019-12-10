@@ -3,3 +3,4 @@ cookies.txt
 .idea/
 .git/
 __pycache__/
+*.jpg
