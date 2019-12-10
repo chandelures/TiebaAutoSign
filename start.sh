@@ -5,7 +5,7 @@ python="${dir}/venv/bin/python"
 start_file_path="${dir}/start.py"
 cookies_file_path="${dir}/cookies.txt"
 log_path="/var/log/tieba.log"
-cmd="${python} ${start_file_path} -c ${cookies_file_path} | tee ${log_path}"
+cmd="${python} ${start_file_path} -c ${cookies_file_path} | tee -a ${log_path}"
 
 is_file_exist(){
     local file_path="$1"
