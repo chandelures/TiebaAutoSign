@@ -20,12 +20,12 @@ class TiebaAutoSign:
         self.driver.implicitly_wait(20)
         self.driver.delete_all_cookies()
         self.tieba_url = "https://tieba.baidu.com/"
-        self.cookie_file_name = 'cookies.txt'
+        self.cookie_file_path = '/home/chandelure/TiebaAutoSign/cookies.txt'
         self.sign_url = 'https://tieba.baidu.com/sign/add'
 
     def add_cookies(self):
         self.driver.get(self.tieba_url)
-        with open(self.cookie_file_name, "r") as fp:
+        with open(self.cookie_file_path, "r") as fp:
             list_cookies = json.loads(fp.readline())
             for cookie in list_cookies:
                 if 'expiry' in cookie:
