@@ -33,14 +33,29 @@ class TiebaAutoSign(object):
     @staticmethod
     def echo(msg):
         """打印信息"""
-        print('[{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
+        print(
+            '[{}] {}'.format(
+                time.strftime(
+                    '%Y-%m-%d %H:%M:%S',
+                    time.localtime(
+                        time.time())),
+                msg))
 
     @staticmethod
     def error(msg):
-        print('[ERROR][{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
+        print(
+            '[ERROR][{}] {}'.format(
+                time.strftime(
+                    '%Y-%m-%d %H:%M:%S',
+                    time.localtime(
+                        time.time())),
+                msg))
 
-    def __init__(self, cookies_file_path="./cookies.txt", tieba_url="https://tieba.baidu.com/",
-                 sign_url='https://tieba.baidu.com/sign/add'):
+    def __init__(
+            self,
+            cookies_file_path="./cookies.txt",
+            tieba_url="https://tieba.baidu.com/",
+            sign_url='https://tieba.baidu.com/sign/add'):
         """初始化"""
         self.driver = self.init_driver()
         self.tieba_url = tieba_url
@@ -103,7 +118,8 @@ class TiebaAutoSign(object):
                 'kw': forum_name,
                 'tbs': '6868ce0283f2fb151561865643'
             }
-            sign_res = self.driver.request('POST', self.sign_url, data=sign_data)
+            sign_res = self.driver.request(
+                'POST', self.sign_url, data=sign_data)
             if eval(sign_res.text)["no"] == 0:
                 self.echo("{}吧签到成功！".format(forum_name))
                 success = success + 1

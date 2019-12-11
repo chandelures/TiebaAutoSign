@@ -34,7 +34,13 @@ class BaiduLogin:
     @staticmethod
     def echo(msg):
         """打印信息"""
-        print('[{}] {}'.format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), msg))
+        print(
+            '[{}] {}'.format(
+                time.strftime(
+                    '%Y-%m-%d %H:%M:%S',
+                    time.localtime(
+                        time.time())),
+                msg))
 
     @staticmethod
     def print_qr_code(content):
@@ -47,8 +53,11 @@ class BaiduLogin:
         qr.add_data(barcode_url)
         qr.print_ascii(invert=True)
 
-    def __init__(self, cookies_file_name='cookies.txt',
-                 qr_code_img_name='qr_code.jpg', login_url='https://passport.baidu.com/v2/?login'):
+    def __init__(
+            self,
+            cookies_file_name='cookies.txt',
+            qr_code_img_name='qr_code.jpg',
+            login_url='https://passport.baidu.com/v2/?login'):
         """初始化"""
         self.driver = self.init_driver()
         self.login_url = login_url
@@ -63,7 +72,8 @@ class BaiduLogin:
     def login_baidu(self):
         """登录百度"""
         self.driver.get(self.login_url)
-        qr_code_href = self.driver.find_element_by_class_name('tang-pass-qrcode-img').get_attribute('src')
+        qr_code_href = self.driver.find_element_by_class_name(
+            'tang-pass-qrcode-img').get_attribute('src')
         qr_code_content = requests.get(qr_code_href).content
         self.print_qr_code(qr_code_content)
         with open(self.qr_code_img_name, 'wb') as fp:
