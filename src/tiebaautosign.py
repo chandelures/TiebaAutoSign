@@ -2,9 +2,9 @@
 from seleniumrequests import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
-import time
 import json
 import re
+import logging
 
 
 class TiebaAutoSign(object):
@@ -31,25 +31,10 @@ class TiebaAutoSign(object):
         return driver
 
     @staticmethod
-    def echo(msg):
-        """打印信息"""
-        print(
-            '[{}] {}'.format(
-                time.strftime(
-                    '%Y-%m-%d %H:%M:%S',
-                    time.localtime(
-                        time.time())),
-                msg))
-
-    @staticmethod
-    def error(msg):
-        print(
-            '[ERROR][{}] {}'.format(
-                time.strftime(
-                    '%Y-%m-%d %H:%M:%S',
-                    time.localtime(
-                        time.time())),
-                msg))
+    def init_logger():
+        logging.basicConfig(level=logging.INFO, format='[%(asctime)s]-%(levelname)s: %(message)s')
+        logger = logging.getLogger(__name__)
+        return logger
 
     def __init__(
             self,
@@ -58,6 +43,7 @@ class TiebaAutoSign(object):
             sign_url='https://tieba.baidu.com/sign/add'):
         """初始化"""
         self.driver = self.init_driver()
+        self.logger = self.init_logger()
         self.tieba_url = tieba_url
         self.cookies_file_path = cookies_file_path
         self.sign_url = sign_url
@@ -65,6 +51,7 @@ class TiebaAutoSign(object):
     def add_cookies(self):
         """为driver添加cookies"""
         self.driver.get(self.tieba_url)
+        self.logger.info("开始读取cookies信息")
         try:
             with open(self.cookies_file_path, "r") as fp:
                 list_cookies = json.loads(fp.readline())
@@ -73,13 +60,13 @@ class TiebaAutoSign(object):
                         del cookie['expiry']
                     self.driver.add_cookie(cookie)
         except FileNotFoundError:
-            self.error("未发现cookies文件，请输入正确的路径")
+            self.logger.warning("未发现cookies文件，请输入正确的路径")
 
     def get_forum_name_list(self):
         """获取用户关注且并未签到的贴吧列表"""
-        self.echo("开始获取关注且未签到的贴吧列表")
-        forum_name_list = []
-        if self.sign_up():
+        if self.is_log_in():
+            self.logger.info("开始获取关注且未签到的贴吧列表")
+            forum_name_list = []
             content = self.driver.page_source
             pattern = re.compile(r"\"user_id\"[^}]*\"is_sign\":0")
             forum_info_list = pattern.findall(content)
@@ -89,7 +76,7 @@ class TiebaAutoSign(object):
                 forum_name_list.append(forum_name)
             return forum_name_list
         else:
-            self.error("获取贴吧列表失败。")
+            self.logger.warning("获取贴吧列表失败。")
             self.exit_driver()
 
     def exit_driver(self):
@@ -97,20 +84,21 @@ class TiebaAutoSign(object):
         self.driver.close()
         self.driver.quit()
 
-    def sign_up(self):
+    def is_log_in(self):
         """判断是否成功登录"""
         self.add_cookies()
         self.driver.get(self.tieba_url)
         try:
             self.driver.find_element_by_id('my_tieba_mod')
+            self.logger.info("登录成功。")
             return True
         except NoSuchElementException:
-            self.error("登陆失败。")
+            self.logger.warning("登陆失败。")
             return False
 
     def auto_sign(self):
         """实现一键签到"""
-        self.echo("开始进行一键签到......")
+        self.logger.info("开始进行一键签到......")
         success = 0
         for forum_name in self.get_forum_name_list():
             sign_data = {
@@ -121,16 +109,7 @@ class TiebaAutoSign(object):
             sign_res = self.driver.request(
                 'POST', self.sign_url, data=sign_data)
             if eval(sign_res.text)["no"] == 0:
-                self.echo("{}吧签到成功！".format(forum_name))
+                self.logger.info("{}吧签到成功！".format(forum_name))
                 success = success + 1
-        self.echo('一键签到结束，共签到成功{}个贴吧。'.format(success))
+        self.logger.info('一键签到结束，共签到成功{}个贴吧。'.format(success))
         self.exit_driver()
-
-    def test(self):
-        """测试cookies是否可以使用"""
-        if self.sign_up():
-            self.echo("测试成功，cookies可以正常使用。")
-            self.exit_driver()
-        else:
-            self.error("测试失败,请更换可用的cookies。")
-            self.exit_driver()
