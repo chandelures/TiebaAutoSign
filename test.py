@@ -5,7 +5,7 @@ from src.get_cookies import BaiduLogin
 
 
 class AutoSignTest(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.tiebaAutoSign = TiebaAutoSign()
         self.baiduLogin = BaiduLogin()
 
