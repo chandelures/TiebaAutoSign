@@ -4,3 +4,4 @@ cookies.txt
 .git/
 __pycache__/
 *.jpg
+*.log
