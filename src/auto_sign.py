@@ -83,8 +83,3 @@ class AutoSign:
     def run(self):
         self.scheduler.add_job(self.run_per_day, 'cron', hour=self.hour)
         self.scheduler.start()
-
-
-if __name__ == "__main__":
-    auto_sign = AutoSign()
-    auto_sign.run()
