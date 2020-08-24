@@ -10,9 +10,10 @@ from src.auto_sign import AutoSign
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "-h:-s", ['help', 'set_cookies'])
+        opts, args = getopt.getopt(argv, "-h:-s", ['help', 'set-cookies'])
     except getopt.GetoptError:
-        print('start.py -c <cookies_file_path>')
+        print('start.py -s --set_cookies')
+        print('start.py -t --test')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ('-h', '--help'):
@@ -20,7 +21,7 @@ def main(argv):
             print('start.py -s --set_cookies')
             print('start.py -t --test')
             sys.exit()
-        if opt in ('-s', '--set_cookies'):
+        if opt in ('-s', '--set-cookies'):
             BDUSS = input("BUDSS: ")
             STOKEN = input("STOKEN: ")
             cookies = {
