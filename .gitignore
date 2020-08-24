@@ -1,5 +1,4 @@
 venv/
-cookies.txt
 .idea/
 .git/
 __pycache__/
