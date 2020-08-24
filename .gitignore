@@ -5,3 +5,4 @@ cookies.txt
 __pycache__/
 *.jpg
 *.log
+cookies.json
