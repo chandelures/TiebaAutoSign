@@ -16,6 +16,8 @@ $ source venv/bin/activate
 
 ### 设置cookies
 
+需要准备好BDUSS和STOKEN两个cookies的值
+
 ```shell
 (venv)$ python start.py --set-cookies
 ```

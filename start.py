@@ -10,16 +10,24 @@ from src.auto_sign import AutoSign
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "-h:-s", ['help', 'set-cookies'])
+        opts, args = getopt.getopt(argv, "-ht:-s", ['help', 'test', 'set-cookies'])
     except getopt.GetoptError:
-        print('start.py -s --set_cookies')
+        print('start.py -h --help')
+        print('start.py -s --setcookies')
         print('start.py -t --test')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print('\n')
-            print('start.py -s --set_cookies')
+            print('start.py -h --help')
+            print('start.py -s --set-cookies')
             print('start.py -t --test')
+            sys.exit()
+        if opt in ('-t', '--test'):
+            auto_sign = AutoSign()
+            if auto_sign.is_login():
+                print("登录成功，cookies可以正常使用")
+            else:
+                print("登陆失败，请重新更换cookies")
             sys.exit()
         if opt in ('-s', '--set-cookies'):
             BDUSS = input("BUDSS: ")
