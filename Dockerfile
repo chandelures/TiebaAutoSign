@@ -2,8 +2,7 @@ FROM python:3.8-alpine
 
 RUN mkdir /sign \
  && echo "http://mirrors.aliyun.com/alpine/v3.8/main/" > /etc/apk/repositories \
- && echo "http://mirrors.aliyun.com/alpine/v3.8/community/" >> /etc/apk/repositories \
- && echo "http://dl-2.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+ && echo "http://mirrors.aliyun.com/alpine/v3.8/community/" >> /etc/apk/repositories
 
 WORKDIR /sign
 
