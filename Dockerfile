@@ -9,6 +9,6 @@ ADD requirements.txt /sign/
 RUN apk update \
  && apk add --no-cache gcc musl-dev libxslt-dev \
  && pip install pip -U -i https://pypi.tuna.tsinghua.edu.cn/simple \
- && pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+ && pip install -r requirements.txt --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ADD . /sign/
