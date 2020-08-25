@@ -75,12 +75,12 @@ class AutoSign:
         r = requests.post(self.urls.get("sign"), cookies=self.cookies, headers=self.headers, params=params)
         data = json.loads(r.text)
         if data.get("no"):
-            self.logger.error(forum + " >> " + data.get("error"))
+            self.logger.warning(forum + " >> " + data.get("error"))
         else:
             self.logger.info(forum + "吧签到成功")
 
     def run_per_day(self):
-        """单日签到的流程"""
+        """单日签到关注过的贴吧"""
         if self.is_login():
 
             self.logger.info("登录成功，开始进行每日自动签到任务")
@@ -94,9 +94,15 @@ class AutoSign:
                 self.sign(followed_forum, tbs)
 
         else:
-            self.logger.error("登录失败，请更换cookies重试")
+            self.logger.warning("登录失败，请及时更换cookies")
 
     def run(self):
         """实现每日计划签到"""
-        self.scheduler.add_job(self.run_per_day, 'cron', hour=self.hour)
-        self.scheduler.start()
+
+        if self.is_login():
+            self.logger.info("cookies测试成功，可以正常使用")
+            self.scheduler.add_job(self.run_per_day, 'cron', hour=self.hour)
+            self.scheduler.start()
+
+        else:
+            self.logger.warning("cookies测试失败，请更换cookies重试")

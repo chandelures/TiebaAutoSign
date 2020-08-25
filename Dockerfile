@@ -12,6 +12,6 @@ RUN apk update \
  && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && pip install pip -U -i https://pypi.tuna.tsinghua.edu.cn/simple \
  && pip install -r requirements.txt --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple \
- && apk del gcc
+ && apk del gcc musl-dev tzdata
 
 ADD . /sign/
