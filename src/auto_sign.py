@@ -1,5 +1,6 @@
 import requests
 from lxml import etree
+import os
 import json
 import logging
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -12,7 +13,7 @@ class AutoSign:
     def __init__(self):
         """进行初始化"""
         self.urls = config.urls
-        self.cookies = json.load(open(config.cookies_path))
+        self.cookies = self.__init_cookies()
         self.headers = config.headers
         self.max_pages = config.max_pages
 
@@ -27,6 +28,14 @@ class AutoSign:
         logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
         logger = logging.getLogger(__name__)
         return logger
+
+    @staticmethod
+    def __init_cookies():
+        """获取cookies"""
+        if os.path.exists(config.cookies_path):
+            return json.load(open(config.cookies_path))
+        else:
+            return {}
 
     def is_login(self):
         """判断cookies是否可以登录"""

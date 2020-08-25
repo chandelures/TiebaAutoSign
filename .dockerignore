@@ -1,2 +1,5 @@
 cookies.json
 /venv
+/.idea
+/.git
+*.log

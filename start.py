@@ -10,7 +10,7 @@ from src.auto_sign import AutoSign
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "-ht:-s", ['help', 'test', 'set-cookies'])
+        opts, args = getopt.getopt(argv, "-h-t-s", ['help', 'test', 'set-cookies'])
     except getopt.GetoptError:
         print('start.py -h --help')
         print('start.py -s --setcookies')
@@ -30,7 +30,7 @@ def main(argv):
                 print("登陆失败，请重新更换cookies")
             sys.exit()
         if opt in ('-s', '--set-cookies'):
-            BDUSS = input("BUDSS: ")
+            BDUSS = input("BDUSS: ")
             STOKEN = input("STOKEN: ")
             cookies = {
                 "BDUSS": BDUSS,
