@@ -20,6 +20,8 @@ urls = {
     "sign": "http://tieba.baidu.com/sign/add"
 }
 
+#时区设定
+timezone = "Asia/Shanghai"
 # 每天何时进行签到
 hour = 23
 

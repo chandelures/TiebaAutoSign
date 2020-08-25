@@ -18,7 +18,7 @@ class AutoSign:
 
         self.hour = config.hour
 
-        self.scheduler = BlockingScheduler()
+        self.scheduler = BlockingScheduler(timezone=config.timezone)
         self.logger = self.__init_logger()
 
     @staticmethod
