@@ -1,16 +1,18 @@
 #!venv/bin/python
 # coding=UTF-8
 import sys
+import os
 import getopt
 import json
 
 from conf import config
-from src.auto_sign import AutoSign
+from src.sign import AutoSign
 
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "-h-t-s", ['help', 'test', 'set-cookies'])
+        opts, args = getopt.getopt(
+            argv, "-h-t-s", ['help', 'test', 'set-cookies'])
     except getopt.GetoptError:
         print('start.py -h --help')
         print('start.py -s --setcookies')
@@ -23,11 +25,7 @@ def main(argv):
             print('start.py -t --test')
             sys.exit()
         if opt in ('-t', '--test'):
-            auto_sign = AutoSign()
-            if auto_sign.is_login():
-                print("登录成功，cookies可以正常使用")
-            else:
-                print("登陆失败，请重新更换cookies")
+            os.system('python -m unittest')
             sys.exit()
         if opt in ('-s', '--set-cookies'):
             BDUSS = input("BDUSS: ")

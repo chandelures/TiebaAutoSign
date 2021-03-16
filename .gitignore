@@ -1,7 +1,8 @@
-venv/
 .idea/
+.vscode/
 .git/
+
+venv/
 __pycache__/
-*.jpg
-*.log
+
 cookies.json
