@@ -9,20 +9,26 @@ from conf import config
 from src.sign import BaiduAutoSign
 
 
+def usage():
+    print('Usage:')
+    print('  start.py -h --help')
+    print('  start.py -s --set-cookies')
+    print('  start.py -t --test')
+    print()
+    print('https://github.com/chandelures/TiebaAutoSign.git')
+    print()
+
+
 def main(argv):
     try:
         opts, _ = getopt.getopt(
             argv, "-h-t-s", ['help', 'test', 'set-cookies'])
     except getopt.GetoptError:
-        print('start.py -h --help')
-        print('start.py -s --setcookies')
-        print('start.py -t --test')
-        sys.exit(2)
+        usage()
+        sys.exit(-1)
     for opt, _ in opts:
         if opt in ('-h', '--help'):
-            print('start.py -h --help')
-            print('start.py -s --set-cookies')
-            print('start.py -t --test')
+            usage()
             sys.exit()
         if opt in ('-t', '--test'):
             os.system('python -m unittest')
