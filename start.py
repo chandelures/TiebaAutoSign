@@ -6,19 +6,19 @@ import getopt
 import json
 
 from conf import config
-from src.sign import AutoSign
+from src.sign import BaiduAutoSign
 
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(
+        opts, _ = getopt.getopt(
             argv, "-h-t-s", ['help', 'test', 'set-cookies'])
     except getopt.GetoptError:
         print('start.py -h --help')
         print('start.py -s --setcookies')
         print('start.py -t --test')
         sys.exit(2)
-    for opt, arg in opts:
+    for opt, _ in opts:
         if opt in ('-h', '--help'):
             print('start.py -h --help')
             print('start.py -s --set-cookies')
@@ -38,7 +38,7 @@ def main(argv):
                 f.write(json.dumps(cookies, indent=4))
             sys.exit()
 
-    auto_sign = AutoSign()
+    auto_sign = BaiduAutoSign()
     auto_sign.run()
 
 
