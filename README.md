@@ -16,6 +16,8 @@ $ source venv/bin/activate
 
 ### Add cookies
 
+First, you should get two cookies named "BDUSS" and "STOKEN" from the browser.
+
 ```shell
 (venv)$ python start.py --set-cookies
 ```
