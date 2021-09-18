@@ -94,7 +94,7 @@ class BaiduAutoSign:
         tbs = self.get_tbs()
 
         if self.verbose:
-            self.logger("获取tbs成功")
+            self.logger.info("获取tbs成功")
 
         for followed_forum in self.get_followed_forums():
             time.sleep(self.sign_time_space)
