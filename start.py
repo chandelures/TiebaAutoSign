@@ -1,4 +1,4 @@
-#!venv/bin/python
+#!/usr/bin/env python
 # coding=UTF-8
 import sys
 import os
@@ -29,20 +29,9 @@ def main(argv):
     for opt, _ in opts:
         if opt in ('-h', '--help'):
             usage()
-            sys.exit()
-        if opt in ('-t', '--test'):
+        elif opt in ('-t', '--test'):
             os.system('python -m unittest')
-            sys.exit()
-        if opt in ('-s', '--set-cookies'):
-            BDUSS = input("BDUSS: ")
-            STOKEN = input("STOKEN: ")
-            cookies = {
-                "BDUSS": BDUSS,
-                "STOKEN": STOKEN
-            }
-            with open(config.cookies_path, "w") as f:
-                f.write(json.dumps(cookies, indent=4))
-            sys.exit()
+        return
 
     auto_sign = BaiduAutoSign()
     auto_sign.run()
