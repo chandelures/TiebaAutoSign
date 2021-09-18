@@ -1,29 +1,41 @@
 # TiebaAutoSign
 
-Sign up in [Baidu Tieba](https://tieba.baidu.com/) automatically.
+本项目可以实现帖吧每日自动签到的功能
 
-## Usage
+## 使用
 
-### Enviroment Set up
+### 配置环境
 
 ```shell
-$ python -m venv venv
+$ virtualenv venv
 
 $ source venv/bin/activate
 
 (venv)$ pip install -r requirements.txt
 ```
 
-### Add cookies
+### 配置 cookies
 
-First, you should get two cookies named "BDUSS" and "STOKEN" from the browser.
+在项目的根目录创建名为 cookies.json 的文件, 并填入 BDUSS 和 STOKEN 两个 cookie 的键值, 例如:
 
-```shell
-(venv)$ python start.py --set-cookies
+```json
+{
+  "BDUSS": "****",
+  "STOKEN": "****"
+}
 ```
 
-### Start Sign up
+### 测试脚本是否可以正常运行
 
 ```shell
+(venv) $ ./start.py -t
+```
+
+### 开始每日签到
+
+```shell
+(venv)$ screen -S tiebasign
 (venv)$ python start.py
 ```
+
+脚本保持时刻运行的状态。
