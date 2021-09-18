@@ -3,13 +3,11 @@
 import sys
 import os
 import getopt
-import json
 
-from conf import config
 from src.sign import BaiduAutoSign
 
 
-def usage():
+def usage() -> None:
     print('Usage:')
     print('  start.py -h --help')
     print('  start.py -s --set-cookies')
@@ -19,7 +17,11 @@ def usage():
     print()
 
 
-def main(argv):
+def test() -> None:
+    os.system('python -m unittest')
+
+
+def main(argv) -> None:
     try:
         opts, _ = getopt.getopt(
             argv, "-h-t-s", ['help', 'test', 'set-cookies'])
@@ -30,7 +32,7 @@ def main(argv):
         if opt in ('-h', '--help'):
             usage()
         elif opt in ('-t', '--test'):
-            os.system('python -m unittest')
+            test()
         return
 
     auto_sign = BaiduAutoSign()
