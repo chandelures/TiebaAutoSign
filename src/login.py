@@ -10,7 +10,7 @@ class BaiduLogin(object):
     login_url = "http://tieba.baidu.com/dc/common/tbs"
     headers = {
         'Host': 'tieba.baidu.com',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleW'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleW'
                       'ebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
     }
     cookies_path = config.cookies_path
@@ -65,3 +65,4 @@ class BaiduLogin(object):
 
     def close(self):
         self.session.close()
+        self.is_login = False

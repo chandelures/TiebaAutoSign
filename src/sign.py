@@ -20,6 +20,14 @@ class BaiduAutoSign:
         self.verbose = verbose
         self.scheduler = BlockingScheduler(timezone=config.timezone)
         self.logger = init_logger()
+        self.loginer = BaiduLogin()
+
+    def init_loginer(self):
+        if not self.loginer.is_successful():
+            self.loginer.login()
+
+    def close_loginer(self):
+        self.loginer.close()
 
     def get_tbs(self, session):
         """获取登陆时所需的参数tbs"""
@@ -76,14 +84,10 @@ class BaiduAutoSign:
 
     def run_per_day(self):
         """单日签到关注过的贴吧"""
-        baidulogin = BaiduLogin()
-        baidulogin.login()
+        if not self.loginer.is_successful():
+            self.init_loginer()
 
-        if not baidulogin.is_successful():
-            baidulogin.close()
-            return
-
-        session = baidulogin.get_session()
+        session = self.loginer.get_session()
 
         self.logger.info('开始进行每日签到')
         tbs = self.get_tbs(session)
@@ -92,7 +96,7 @@ class BaiduAutoSign:
             time.sleep(self.sign_time_space)
             self.sign(session, followed_forum, tbs)
 
-        baidulogin.close()
+        self.close_loginer()
 
     def run(self):
         """实现每日计划签到"""

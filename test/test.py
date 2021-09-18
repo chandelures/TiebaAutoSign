@@ -1,7 +1,6 @@
 #!venv/bin/python
 import unittest
 from src.login import BaiduLogin
-from src.sign import AutoSign
 
 
 class AutoSignTest(unittest.TestCase):
