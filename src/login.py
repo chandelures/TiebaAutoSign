@@ -7,7 +7,7 @@ from conf import config
 
 
 class BaiduLogin(object):
-    login_url = "http://tieba.baidu.com/dc/common/tbs"
+    test_login_url = "http://tieba.baidu.com/f/like/mylike"
     headers = {
         'Host': 'tieba.baidu.com',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleW'
@@ -21,6 +21,9 @@ class BaiduLogin(object):
         self.is_login = False
 
         self.verbose = verbose
+
+        self.add_header()
+        self.add_cookies()
 
     def get_cookies(self):
         if not os.path.exists(config.cookies_path):
@@ -46,19 +49,14 @@ class BaiduLogin(object):
         return self.is_login
 
     def login(self):
-        self.add_header()
-        self.add_cookies()
+        res = self.session.get(self.test_login_url, allow_redirects=False)
 
-        res = self.session.get(
-            self.login_url, headers=self.headers)
-
-        if res.json().get('is_login'):
+        if res.status_code == 200:
             self.is_login = True
             self.logger.info('登录成功')
-            return True
         else:
+            self.is_login = False
             self.logger.warning("登陆失败")
-            return False
 
     def get_session(self):
         return self.session
