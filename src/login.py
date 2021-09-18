@@ -15,7 +15,7 @@ class BaiduLogin(object):
     }
     cookies_path = config.cookies_path
 
-    def __init__(self, verbose=True):
+    def __init__(self, verbose=True) -> None:
         self.session = requests.Session()
         self.logger = init_logger()
         self.is_login = False
@@ -25,7 +25,7 @@ class BaiduLogin(object):
         self.add_header()
         self.add_cookies()
 
-    def get_cookies(self):
+    def get_cookies(self) -> dict:
         if not os.path.exists(config.cookies_path):
             if self.verbose:
                 self.logger.warning("读取cookies失败，请重新配置cookies")
@@ -36,31 +36,33 @@ class BaiduLogin(object):
 
         return cookies
 
-    def add_header(self):
+    def add_header(self) -> None:
         self.session.headers = self.headers
 
-    def add_cookies(self):
+    def add_cookies(self) -> None:
         cookies = self.get_cookies()
         for key, val in cookies.items():
             requests.utils.add_dict_to_cookiejar(
                 self.session.cookies, {key: val})
 
-    def is_successful(self):
+    def is_successful(self) -> bool:
         return self.is_login
 
-    def login(self):
+    def login(self) -> None:
         res = self.session.get(self.test_login_url, allow_redirects=False)
 
         if res.status_code == 200:
             self.is_login = True
-            self.logger.info('登录成功')
+            if self.verbose:
+                self.logger.info('登录成功')
         else:
             self.is_login = False
-            self.logger.warning("登陆失败")
+            if self.verbose:
+                self.logger.warning("登陆失败")
 
-    def get_session(self):
+    def get_session(self) -> requests.Session:
         return self.session
 
-    def close(self):
+    def close(self) -> None:
         self.session.close()
         self.is_login = False
